@@ -33,10 +33,11 @@ st.image("logo.png", width=300)
 st.markdown('</div>', unsafe_allow_html=True)
 st.title("BUSCADOR DE PUNTOS")
 
-# ======== GESTIÓN DE ACCESO ========
+# ======== SESIÓN ========
 if "access_granted" not in st.session_state:
     st.session_state["access_granted"] = False
 
+# ======== LOGIN ========
 if not st.session_state["access_granted"]:
     password_input = st.text_input("Introduce la contraseña para acceder:", type="password")
     if st.button("Entrar"):
@@ -46,7 +47,12 @@ if not st.session_state["access_granted"]:
             st.error("Contraseña incorrecta.")
 
 else:
-    # ======== CONEXIÓN CON GOOGLE SHEETS ========
+    # ======== BOTÓN DE CIERRE DE SESIÓN ========
+    if st.button("Cerrar sesión"):
+        st.session_state["access_granted"] = False
+        st.experimental_rerun()
+
+    # ======== CONEXIÓN GOOGLE SHEETS ========
     scopes = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
     creds = service_account.Credentials.from_service_account_info(
         st.secrets["gcp_service_account"], scopes=scopes)
@@ -77,7 +83,7 @@ else:
 
         if not resultados.empty:
             st.success(f"{len(resultados)} resultado(s) encontrado(s):")
-            
+
             if len(resultados) == 1:
                 fila = resultados.iloc[0]
             else:
@@ -91,6 +97,7 @@ else:
             st.markdown(f"**Expendiduría:** {fila.get('Expendiduría', '')}")
             st.markdown(f"**Teléfono:** {fila.get('TELÉFONO', '')}")
             st.markdown(f"**Nombre:** {fila.get('Nombre', '')}")
+            st.markdown(f"**Responsable de zona:** {fila.get('RESPONSABLE DE ZONA', '')}")
             st.markdown(f"**Promoción 3x10 TAPPO:** {fila.get('Promoción 3x10 TAPPO', '')}")
             st.markdown(f"**Promoción 3×21 BM1000:** {fila.get('Promoción 3×21 BM1000', '')}")
             st.markdown(f"**TOTAL PROMOS:** {fila.get('TOTAL PROMOS', '')}")
