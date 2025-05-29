@@ -52,11 +52,12 @@ else:
         st.secrets["gcp_service_account"], scopes=scopes)
     client = gspread.authorize(creds)
 
-    SHEET_ID = "1a14wIe2893oS7zhicvT4mU0N_dM3vqItkTfJdHB325A"  # ID de tu hoja real
+    SHEET_ID = "1a14wIe2893oS7zhicvT4mU0N_dM3vqItkTfJdHB325A"
     try:
         sheet = client.open_by_key(SHEET_ID)
         worksheet = sheet.worksheet("Registro")
         df = pd.DataFrame(worksheet.get_all_records())
+        df.columns = df.columns.str.strip()  # LIMPIA LOS NOMBRES DE COLUMNAS
     except Exception as e:
         st.error(f"Error al cargar la hoja de cálculo: {e}")
         st.stop()
