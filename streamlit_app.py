@@ -42,7 +42,7 @@ if not st.session_state["access_granted"]:
     if st.button("Entrar"):
         if password_input == "Lostmary.elfbar25":
             st.session_state["access_granted"] = True
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.error("Contraseña incorrecta.")
 else:
@@ -57,7 +57,7 @@ else:
         sheet = client.open_by_key(SHEET_ID)
         worksheet = sheet.worksheet("Registro")
         df = pd.DataFrame(worksheet.get_all_records())
-        df.columns = df.columns.str.strip()  # LIMPIA LOS NOMBRES DE COLUMNAS
+        df.columns = df.columns.str.strip()  # Limpia espacios invisibles
     except Exception as e:
         st.error(f"Error al cargar la hoja de cálculo: {e}")
         st.stop()
