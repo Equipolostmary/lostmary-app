@@ -87,7 +87,7 @@ if "auth_email" in st.session_state:
     nombre_usuario = user["Expendiduría"] if user is not None else correo_usuario
 
     st.markdown('<div class="logo-container"><div class="logo-frame">', unsafe_allow_html=True)
-    st.image("logo.png.jpeg", use_container_width=True)  # nombre corregido para coincidir con tu archivo
+    st.image("logo.png ", use_container_width=True)  # nombre corregido para coincidir con tu archivo
     st.markdown('</div></div>', unsafe_allow_html=True)
 
     st.markdown(f'<div class="titulo">ÁREA PRIVADA – {nombre_usuario}</div>', unsafe_allow_html=True)
