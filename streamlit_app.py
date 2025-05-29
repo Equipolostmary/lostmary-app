@@ -42,7 +42,6 @@ if not st.session_state["access_granted"]:
     if st.button("Entrar"):
         if password_input == "Lostmary.elfbar25":
             st.session_state["access_granted"] = True
-            st.rerun()
         else:
             st.error("Contraseña incorrecta.")
 else:
