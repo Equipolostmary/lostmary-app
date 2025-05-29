@@ -54,9 +54,15 @@ else:
         st.secrets["gcp_service_account"], scopes=scopes)
     client = gspread.authorize(creds)
 
-    sheet = client.open_by_key(st.secrets["gcp_service_account"]["sheet_id"])
-    worksheet = sheet.worksheet("Registro")
-    df = pd.DataFrame(worksheet.get_all_records())
+    # ID fijo de la hoja (puedes reemplazar por el tuyo si es otro)
+    SHEET_ID = "1CpHwmPrRYqqMtXrZBZV7-nQOeEH6Z-RWtpnT84ztVB0"
+    try:
+        sheet = client.open_by_key(SHEET_ID)
+        worksheet = sheet.worksheet("Registro")
+        df = pd.DataFrame(worksheet.get_all_records())
+    except Exception as e:
+        st.error(f"Error al cargar la hoja de cálculo: {e}")
+        st.stop()
 
     # Buscador simple por teléfono, correo, expendiduría o usuario
     termino = st.text_input("Buscar por teléfono, correo, expendiduría o usuario").strip().lower()
